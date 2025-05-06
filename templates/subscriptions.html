@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subscription Plans | Sippr Bookstore</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f4f6fc;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .price {
+      font-size: 32px;
+      font-weight: bold;
+      color: #6c5ce7;
+    }
+    .plan-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #2d3436;
+    }
+    .btn-subscribe {
+      background: #6c5ce7;
+      color: white;
+      border-radius: 30px;
+      padding: 10px 30px;
+    }
+    .btn-subscribe:hover {
+      background: #5a4dcf;
+    }
+    .tag {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: gold;
+      color: black;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+     <!-- navbar -->
+     <nav class="navbar navbar-expand-lg " style="background-color: rgb(29, 29, 29);">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand"
+                style="color:white; font-family: cursive; font-size:32px; margin-top:-15px"  aria-current="page" href="#" >Sippr.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+                <span class="navbar-toggler-icon active"></span>
+            </button> -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-light active" style="color:white; font-family: cursive; font-size:32px; margin-top:-18px" aria-current="page" href="/bookstore">Sippr</a>
+                    </li>
+                    
+                {% if session['username'] %}
+                <li class="nav-item">
+                    <a class="nav-link text-light active" href="#">
+                        <i class="bi bi-person-circle"></i>&nbsp;{{ session['username'] }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light active" href="/signin">Sign In</a>
+                </li>
+                {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="#" data-bs-toggle="modal"
+                            data-bs-target="#contactusModal">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/cart" data-bs-toggle="" data-bs-target="#">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/sellbooks"  data-bs-toggle="" data-bs-target="#">Sell books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/subscriptions"  data-bs-toggle="" data-bs-target="#">Subscriptions</a>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+
+     </nav>
+  <div class="container py-5">
+    <h2 class="text-center mb-5 fw-bold">Choose Your Subscription Plan</h2>
+    <div class="row justify-content-center g-4">
+
+      <!-- Free Plan -->
+      <div class="col-md-4">
+        <div class="card p-4 text-center position-relative">
+          <h4 class="plan-title">Free Plan</h4>
+          <div class="price">₹0<span class="fs-6">/month</span></div>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>✅ Book ordering</li>
+            <li>🚫 No eBooks</li>
+            <li>🚫 No delivery benefits</li>
+          </ul>
+          <button class="btn btn-outline-secondary btn-subscribe">Cancel Subscription</button>
+        </div>
+      </div>
+
+      <!-- Gold Plan -->
+      <div class="col-md-4">
+        <div class="card p-4 text-center position-relative">
+          <span class="tag">Popular</span>
+          <h4 class="plan-title">Gold Plan</h4>
+          <div class="price">₹50<span class="fs-6">/month</span></div>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>✅ 1 free eBook</li>
+            <li>✅ Free delivery</li>
+            <li>🚫 Toonify Access</li>
+          </ul>
+          <button class="btn btn-subscribe">Upgrade</button>
+        </div>
+      </div>
+
+      <!-- Diamond Plan -->
+      <div class="col-md-4">
+        <div class="card p-4 text-center position-relative">
+          <h4 class="plan-title">Diamond Plan</h4>
+          <div class="price">₹200<span class="fs-6">/month</span></div>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>✅ 5 free eBooks</li>
+            <li>✅ Free delivery</li>
+            <li>✅ 20% off all orders</li>
+            <li>✅ Toonify subscription included</li>
+          </ul>
+          <button class="btn btn-subscribe">Upgrade</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2025 Sippr . All rights reserved.</p>
+</footer>
+<style>
+    footer {
+        text-align: center;
+        margin-top: -30px;
+    }
+</style>
+</body>
+</html>

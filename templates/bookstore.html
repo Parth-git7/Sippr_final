@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sippr.</title>
+
+    <!-- ✅ KEEP ONLY ONE Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons (optional) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="static/styles.css">
+
+    
+</head>
+
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg " style="background-color: rgb(29, 29, 29);">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand"
+                style="color:white; font-family: cursive; font-size:32px; margin-top:-15px"  aria-current="page" href="#" >Sippr.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+                <span class="navbar-toggler-icon active"></span>
+            </button> -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-light active" style="color:white; font-family: cursive; font-size:32px; margin-top:-18px" aria-current="page" href="/">Sippr</a>
+                    </li>
+                    
+                {% if session['username'] %}
+                <li class="nav-item">
+                    <a class="nav-link text-light active" href="#">
+                        <i class="bi bi-person-circle"></i>&nbsp;{{ session['username'] }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light active" href="/signin">Sign In</a>
+                </li>
+                {% endif %}
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/cart" data-bs-toggle="" data-bs-target="#">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/sellbooks"  data-bs-toggle="" data-bs-target="#">Sell books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/subscriptions"  data-bs-toggle="" data-bs-target="#">Subscriptions</a>
+                    </li>
+                </ul>
+            </div>
+<!-- search-bar -->
+<div class="position-relative">
+    <form class="d-flex" onsubmit="return false;" role="search">
+        <input id="searchInput" class="form-control me-2" type="search" placeholder="Search Books..." onkeyup="searchBooks()">
+    </form>
+
+    <!-- Dropdown suggestions -->
+    <ul id="searchDropdown" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
+        <!-- Populated dynamically -->
+    </ul>
+</div>
+
+<script>
+    // Replace with your book list or load from Flask
+    const books = [
+        "Hyperfocus",
+        "Ratan Tata",
+        "Harry Potter and the Philosopher's Stone",
+        "Winterling",
+        "The Lord of Rings",
+        "The Monk who sold his Ferrari",
+        "Bhagwad Gita",
+        "Ghosts of the Silent hills" ,
+        "Start living again" ,
+        "Elon Musk" , 
+        "Deep Work" , 
+        "It ends with us" ,
+        "Atomic Habits",
+        "The Alchemist",
+        "The Power of Now",
+        "The Subtle Art of Not Giving a F*ck",
+        "Ikigai",
+        "Rich Dad Poor Dad",
+        "Think and Grow Rich",
+        "Can't Hurt Me",
+        "Zero to One",
+        "The Psychology of Money",
+        "The 5 AM Club",
+        "Man's Search for Meaning",
+        "Start With Why",
+        "Make Your Bed",
+        "How to Win Friends and Influence People"
+    ];
+
+    function searchBooks() {
+        const input = document.getElementById("searchInput");
+        const query = input.value.toLowerCase();
+        const dropdown = document.getElementById("searchDropdown");
+
+        // Clear previous suggestions
+        dropdown.innerHTML = "";
+
+        if (query === "") {
+            dropdown.style.display = "none";
+            return;
+        }
+
+        // Filter and add matches
+        const matches = books.filter(book => book.toLowerCase().includes(query));
+
+        if (matches.length > 0) {
+            matches.forEach(match => {
+                const li = document.createElement("li");
+                li.className = "list-group-item list-group-item-action";
+                li.textContent = match;
+                li.onclick = () => {
+                    input.value = match;
+                    dropdown.style.display = "none";
+                };
+                dropdown.appendChild(li);
+            });
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
+
+
+        </div>
+
+    </nav>
+    <ul class="nav justify-content-center">
+
+        <li class="nav-item">
+            <a class="nav-link" href="/fiction" style="color:rgb(29, 29, 29)">Fiction</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color:rgb(29, 29, 29)">|</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/nonfiction" style="color:rgb(29, 29, 29)">Non-Fiction</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color:rgb(29, 29, 29)">|</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/horror" style="color:rgb(29, 29, 29)">Horror</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color:rgb(29, 29, 29)">|</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/selfhelp" style="color:rgb(29, 29, 29)">Self-Help</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color:rgb(29, 29, 29)">|</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/religious" style="color:rgb(29, 29, 29)">Religious</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color:rgb(29, 29, 29)">|</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/romance" style="color:rgb(29, 29, 29)">Romance</a>
+        </li>
+    </ul>
+    
+   
+
+
+
+
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                class="active"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="static/Images/bann6.png" width="100%" height="300" class="d-block w-100" alt="Collection">
+            </div>
+            <div class="carousel-item">
+                <img src="static/Images/bann2.png" width="100%" height="300" class="d-block w-100" alt="Collection">
+            </div>
+            <div class="carousel-item">
+                <img src="static/Images/bann5.png" width="100%" height="300" class="d-block w-100" alt="Collection">
+            </div>
+            <div class="carousel-item">
+                <img src="static/Images/bann3.png" width="100%" height="300" class="d-block w-100" alt="Collection">
+            </div>
+            
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            
+        </button>
+    </div>
+    <h1 style="color:rgb(29, 29, 29); margin-top:8px ; font-family: cursive; margin-left:6px">New Arrivals.</h1>
+    <hr style="margin-top: -2px; color:black">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/fiction/lord of rings.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        height="230px" alt="lord of rings">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Lord of Rings</h5>
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="1" 
+                            data-title="Lord of Rings"
+                            data-price="800" 
+                            data-image="static/Images/fiction/lord of rings.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/fiction/Harry-Potter1.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        height="230px" alt="...">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Harry Potter & Ph...</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="2" 
+                            data-title="Harry Potter & Philospher's Stone"
+                            data-price="800" 
+                            data-image="static/Images/fiction/Harry-Potter1.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/self-help/hyperfocus.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        height="230px" alt="Hyperfocus">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Hyperfocus</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="3" 
+                            data-title="Hyperfocus"
+                            data-price="800" 
+                            data-image="static/Images/self-help/hyperfocus.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/fiction/Winterling.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        height="230px" alt="Winterling">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 text-left" style="font-size: 15px;">Winterling</h5>
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="4" 
+                            data-title="Winterling"
+                            data-price="800" 
+                            data-image="static/Images/fiction/Winterling.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/romance/ends.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        height="230px" alt="Ends with us">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Ends with us</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="5" 
+                            data-title="It ends with us"
+                            data-price="800" 
+                            data-image="static/Images/romance/ends.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/Non-fiction/tata.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        height="230px" alt="tata">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Ratan Tata</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="6" 
+                            data-title="Ratan Tata"
+                            data-price="800" 
+                            data-image="static/Images/Non-fiction/tata.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <h1 style="color:rgb(29, 29, 29); margin-top:20px ; font-family: cursive; margin-left:6px">Trending.</h1>
+    <hr style="margin-top: -2px; color:black">
+    <div class="container text-center">
+        <div class="row ">
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/religious/bhagavadgita.jpg" class="card-img-top p-3"
+                        style="margin-bottom:-21%;" alt="Bhagavad Gita">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Bhagavad Gita</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                        data-id="7" 
+                        data-title="Bhagavad Gita"
+                        data-price="800" 
+                        data-image="static/Images/religious/bhagavadgita.jpg">
+                        Add to cart
+                    </a>
+                    
+                    <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/romance/living.jpg" class="card-img-top p-3" style="margin-bottom:-21%;" alt="Start living again">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Living again</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="8" 
+                            data-title="Start living again"
+                            data-price="800" 
+                            data-image="static/Images/romance/living.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/Non-fiction/elon.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        alt="Elon Musk">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Elon Musk</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="9" 
+                            data-title="Elon Musk"
+                            data-price="800" 
+                            data-image="static/Images/Non-fiction/elon.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/Non-fiction/monk.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        alt="Monk who sold his Ferrari">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 text-left" style="font-size: 15px;">Monk sold Ferrari</h5>
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="10" 
+                            data-title="Monk who sold his Ferrari"
+                            data-price="800" 
+                            data-image="static/Images/Non-fiction/monk.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/horror/silent hill.jpg" class="card-img-top p-3" style="margin-bottom:-21%;"
+                        alt="Ghosts of silent hill">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Ghosts of silent hill</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="11" 
+                            data-title="Ghosts of silent hill"
+                            data-price="800" 
+                            data-image="static/Images/horror/silent hill.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card mt-2 shadow border border-light-subtle" style="width:100%;">
+                    <img src="static/Images/self-help/deep work.jpg" class="card-img-top p-3" style="margin-bottom:-21%; "
+                        height="235px" alt="Deep Work">
+                    <div class="card-body text-start">
+                        <h5 class="card-title my-1 " style="font-size: 15px;">Deep Work</h5>
+
+                        <p class="card-text my-1" style="font-size: 10px;">Price : 800/-</p>
+                        <a href="#" class="btn btn-sm btn-warning add-to-cart" 
+                            data-id="12" 
+                            data-title="Deep Work"
+                            data-price="800" 
+                            data-image="static/Images/self-help/deep work.jpg">
+                            Add to cart
+                        </a>
+                        
+                        <span id="likeButton" class="heart">&#x2661;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        // Select all heart buttons and add event listeners
+        document.querySelectorAll(".heart").forEach(button => {
+            button.addEventListener("click", function() {
+                this.classList.toggle("liked");
+                this.innerHTML = this.classList.contains("liked") ? "&#x2764;" : "&#x2661;";
+            });
+        });
+    </script>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".add-to-cart").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            const bookData = {
+                book_id: this.getAttribute("data-id"),
+                title: this.getAttribute("data-title"),
+                price: this.getAttribute("data-price"),
+                image: this.getAttribute("data-image")
+            };
+
+            fetch("/add_to_cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(bookData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); 
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+});
+
+    </script>
+    <div class="container-fluid mt-4"><img src="static/godaddy about us.png" width="1250px"></div>
+
+    
+
+   
+<!-- Ad Modal -->
+<!-- Ad Modal: Place near the end of <body> -->
+    <div class="modal fade" id="adModal" tabindex="-1" aria-labelledby="adModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content p-0 overflow-hidden" style="border-radius: 18px;">
+            <div class="row g-0">
+              <!-- Image section (hidden on xs) -->
+              <div class="col-md-5 d-none d-md-block" style="background: #f8f9fa;">
+                <img src="static/Images/offer-books.png" alt="Special Offer" class="img-fluid h-100" style="object-fit: cover;">
+              </div>
+              <!-- Content section -->
+              <div class="col-12 col-md-7">
+                <div class="modal-header border-0 pb-0">
+                  <h5 class="modal-title w-100 fw-bold" id="adModalLabel" style="color: #1d1d1d;">
+                    <i class="bi bi-stars" style="color: #ff9800; font-size: 1.5rem;"></i> Limited-Time Book Offer!
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-2">
+                  <p class="fs-5 mb-3" style="color: #444;">
+                    <span class="badge bg-warning text-dark mb-2" style="font-size: 1rem;">10% OFF</span><br>
+                    Get <b>10% off on Harry Potter Collection</b> at Sippr! Discover your next favorite Harry Potter Collection in our Fictional books and trending titles.
+                  </p>
+                  <div class="d-grid gap-2">
+                    <a href="/fiction" class="btn btn-primary btn-lg" style="background: #ff9800; border: none;">
+                      Shop Now <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal" style="text-decoration: none;">
+                      Maybe later
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <style>
+       
+    
+    </style>
+      <div id="chat-container">
+        <div id="chat-box">
+            <div id="chat-content"></div>
+            <input type="text" id="user-input" placeholder="Ask me something..." />
+            <button class="buttonchat" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <div id="chat-button" onclick="toggleChat()">💬</div>
+     
+    <script>
+        function toggleChat() {
+            const chatContainer = document.getElementById('chat-container');
+            
+            if (chatContainer.style.display === "none" || chatContainer.style.display === "") {
+                chatContainer.style.display = "flex";
+            } else {
+                chatContainer.style.display = "none";
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value.toLowerCase();
+            const chatContent = document.getElementById('chat-content');
+
+            // Display user message
+            chatContent.innerHTML += "<div><b>You:</b> " + userInput + "</div>";
+
+            // Simple rule-based responses
+            let botResponse = "";
+
+            if (userInput.includes("hello")) {
+                botResponse = "Hello! How can I assist you today?";
+            } else if (userInput.includes("working hours")) {
+                botResponse = "We are open from 9 AM to 6 PM, Monday to Friday.";
+            } else if (userInput.includes("contact support")) {
+                botResponse = "You can contact our support team at support@sippr.com or call us at 123-456-7890.";
+            } else if (userInput.includes("return policy")) {
+                botResponse = "We offer a 30-day return policy on most products.";
+            } else if (userInput.includes("hi")) {
+                botResponse = "Hi there! How can I help you today?";
+            } else {
+                botResponse = "I'm sorry, I didn't understand that. Can you please rephrase?";
+            }
+
+            // Display bot response
+            chatContent.innerHTML += "<div><b>Bot:</b> " + botResponse + "</div>";
+
+            // Scroll to the bottom of the chat
+            chatContent.scrollTop = chatContent.scrollHeight;
+
+            // Clear input field
+            document.getElementById('user-input').value = "";
+        }
+    </script>
+
+    
+<!-- Bootstrap JS Bundle (just before </body>) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+ <!-- Show modal on page load -->
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var adModal = new bootstrap.Modal(document.getElementById('adModal'));
+    adModal.show();
+  });
+</script> 
+
+  <footer>
+    <p>&copy; 2025 Sippr . All rights reserved.</p>
+</footer>
+
+<style>
+    footer {
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+
+
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sell Your Book | Multiverse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .sell-header {
+      background: linear-gradient(to right, #6f42c1, #9b59b6);
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      border-bottom: 5px solid #563d7c;
+    }
+    .form-container {
+      background: white;
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      margin-top: -40px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg " style="background-color: rgb(29, 29, 29);">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand"
+                style="color:white; font-family: cursive; font-size:32px; margin-top:-15px"  aria-current="page" href="#" >Sippr.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+                <span class="navbar-toggler-icon active"></span>
+            </button> -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-light active" style="color:white; font-family: cursive; font-size:32px; margin-top:-18px" aria-current="page" href="/bookstore">Sippr</a>
+                    </li>
+                    
+                {% if session['username'] %}
+                <li class="nav-item">
+                    <a class="nav-link text-light active" href="#">
+                        <i class="bi bi-person-circle"></i>&nbsp;{{ session['username'] }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light active" href="/signin">Sign In</a>
+                </li>
+                {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="#" data-bs-toggle="modal"
+                            data-bs-target="#contactusModal">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/cart" data-bs-toggle="" data-bs-target="#">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light " href="/sellbooks"  data-bs-toggle="" data-bs-target="#">Sell books</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- search-bar -->
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search">
+                <button onclick="myFunction()" class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+            <script>
+                function myFunction() {
+                    alert("Sorry ! The Search Bar is not working ...");
+                }
+            </script>
+        </div>
+        </nav>
+  <!-- Header -->
+  <div class="sell-header">
+    <h2>Sell Your Book</h2>
+    <p class="lead">List your book on Sippr and reach thousands of readers!</p>
+  </div>
+
+  <!-- Form -->
+<div class="container">
+    <div class="form-container mt-5 mb-5">
+      <form action="{{ url_for('submit_book') }}" method="POST" enctype="multipart/form-data">
+        <!-- All your input fields (title, author, etc.) -->
+  
+        <div class="mb-4">
+          <label for="cover_image" class="form-label">Upload Book Cover</label>
+          <input class="form-control" type="file" id="cover_image" name="cover_image" accept="image/*" required>
+        </div>
+  
+        <button type="submit" class="btn btn-primary w-100">Submit Book</button>
+      </form>
+  
+      <!-- NEW: Button to redirect to Toonify -->
+      <div class="text-center mt-4">
+        <a href="/index" target="_blank" class="btn btn-outline-secondary">
+          🎨 Generate Cover with Toonify
+        </a>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
